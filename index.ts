@@ -1,5 +1,3 @@
-namespace WoowfixKeycloakConnect {}
-
 import { NextFunction, Request, Response } from 'express';
 import KeycloakConnect, {
     KeycloakOptions,
