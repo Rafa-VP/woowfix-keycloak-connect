@@ -1,28 +1,48 @@
-// @ts-nocheck
 import { NextFunction, Request, Response } from 'express';
-import Keycloak, { Grant } from 'keycloak-connect';
+import KeycloakConnect, {
+    Grant,
+    KeycloakOptions,
+    KeycloakConfig,
+    Keycloak,
+    Token
+} from 'keycloak-connect';
 import Jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
-import { Keycloak } from 'keycloak-connect';
+
+type WKauth = {
+    grant: WGrant;
+};
+
+type WGrant = {
+    accessToken: string;
+};
+
+declare global {
+    namespace Express {
+        interface Request {
+            kauth: WKauth | {};
+        }
+    }
+}
 
 export class WoowfixKeycloakConnect {
     private KcClient: Keycloak;
     constructor(
-        options?: Keycloak.KeycloakOptions | undefined,
-        config?: string | Keycloak.KeycloakConfig | undefined
+        options?: KeycloakOptions | undefined,
+        config?: string | KeycloakConfig | undefined
     ) {
-        this.KcClient(options, config);
+        this.KcClient = new KeycloakConnect(options, config);
     }
     public middleware = (req: Request, res: Response, next: NextFunction) => {
         req.kauth = {};
         next();
     };
-    public protect = (role?: string | string[], clientName: string) => {
+    public protect = (clientName: string, role?: string | string[]) => {
         return (req: Request, res: Response, next: NextFunction) => {
             const token = req.headers?.authorization?.split(' ')[1];
             try {
                 if (req.headers.authorization) {
-                    KcClient.grantManager
+                    this.KcClient.grantManager
                         .validateAccessToken(token!)
                         .then((result) => {
                             if (result === false) {
@@ -33,11 +53,12 @@ export class WoowfixKeycloakConnect {
                                         authendication: 'Unauthorized'
                                     });
                             } else {
-                                req.kauth.grant = {
-                                    access_token: result
-                                } as Grant;
+                                req.kauth = {
+                                    grant: { accessToken: result }
+                                };
                                 const decoded = Jwt.decode(result);
                                 if (typeof role === 'string') {
+                                    // @ts-ignore
                                     const roles = decoded?.resource_access?.[
                                         clientName
                                     ]?.roles as string[]; // Array of string with roles;
@@ -52,6 +73,7 @@ export class WoowfixKeycloakConnect {
                                         });
                                 }
                                 if (typeof role === 'object') {
+                                    // @ts-ignore
                                     const roles = decoded?.resource_access?.[
                                         clientName
                                     ]?.roles as string[]; // Array of string with roles;
