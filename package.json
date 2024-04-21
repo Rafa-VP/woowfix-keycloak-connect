@@ -1,6 +1,6 @@
 {
   "name": "@woowfix/keycloak-connect",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "repository": {
     "url": "git+https://github.com/Rafa-VP/woowfix-keycloak-connect.git"
