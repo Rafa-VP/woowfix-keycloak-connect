@@ -1,0 +1,26 @@
+{
+    "name": "@woofix/keycloak-connect",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "repository": {
+        "url": "https://github.com/Rafa-VP/woowfix-keycloak-connect"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.19.2",
+        "http-status-codes": "^2.3.0",
+        "jsonwebtoken": "^9.0.2",
+        "keycloak-connect": "^24.0.3"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/jsonwebtoken": "^9.0.6",
+        "typescript": "^5.4.5"
+    }
+}
+
