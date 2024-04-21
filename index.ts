@@ -23,7 +23,7 @@ declare global {
     }
 }
 
-export class WoowfixKeycloakConnect {
+export default class WoowfixKeycloakConnect {
     private KcClient: Keycloak;
     constructor(
         options?: KeycloakOptions | undefined,
