@@ -5,7 +5,7 @@ import Jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { Keycloak } from 'keycloak-connect';
 
-export class KeycloakConnectWoowfix {
+export class WoowfixKeycloakConnect {
     private KcClient: Keycloak;
     constructor(
         options?: Keycloak.KeycloakOptions | undefined,

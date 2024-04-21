@@ -1,1 +1,1 @@
-declare module "WoowfixKeycloak"
+declare module "WoowfixKeycloakConnect"
